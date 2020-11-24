@@ -150,20 +150,18 @@ float ir_distance(void){ // return value unit: mm
   return 300.0 / (b - a) * (val - a) + 100;
 }
 // ================
-float under_noise_filter(void){ // 아래로 떨어지는 형태의 스파이크를 제거해주는 필터
+float under_noise_filter(void){ 
   int currReading;
   int largestReading = 0;
   for (int i = 0; i < samples_num; i++) {
     currReading = ir_distance();
     if (currReading > largestReading) { largestReading = currReading; }
-    // Delay a short time before taking another reading
     delayMicroseconds(DELAY_MICROS);
   }
   return largestReading;
 }
 
-float ir_distance_filtered(void){ // 아래로 떨어지는 형태의 스파이크를 제거 후, 위로 치솟는 스파이크를 제거하고 EMA필터를 적용함.
-  // under_noise_filter를 통과한 값을 upper_nosie_filter에 넣어 최종 값이 나옴.
+float ir_distance_filtered(void){ 
   int currReading;
   int lowestReading = 1024;
   dist_raw = ir_distance(); 
@@ -171,7 +169,7 @@ float ir_distance_filtered(void){ // 아래로 떨어지는 형태의 스파이�
     currReading = under_noise_filter();
     if (currReading < lowestReading) { lowestReading = currReading; }
   }
-  // eam 필터 추가
+
   dist_ema = _DIST_ALPHA *lowestReading + (1-_DIST_ALPHA )*dist_ema;
   return dist_ema;
 }
