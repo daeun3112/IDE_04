@@ -22,10 +22,10 @@
 
 #define _KP 1.4
 #define _KD 88
-#define _KI 0.003
+#define _KI 0.01
 
 #define a 90
-#define b 330
+#define b 310
 
 Servo myservo;
 
